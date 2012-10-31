@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:wicket="http://wicket.apache.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Apache Wicket Quickstart</title>
+    <link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:regular,bold' rel='stylesheet'
+          type='text/css'/>
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" title="Stylesheet"/>
+    <style>
+        fieldset {
+            width: 350px;
+            float: left;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+<form style="margin: 25px" wicket:id="form">
+    <h2>Wo gibts das beste Mittagessen?</h2>
+    <fieldset>
+        <label>Name:</label> <input type="text" wicket:id="name"/><br/>
+        <label>Strasse:</label> <input type="text" wicket:id="street"/><br/>
+        <label>PLZ: </label><input type="text" wicket:id="zip"/><br/>
+        <label>Stadt:</label> <input type="text" wicket:id="city"/><br/>
+        <label>Was möchtest Du essen?</label> <select wicket:id="food"/><br/>
+        <input wicket:id="submit" type="submit" id="submit"/>
+    </fieldset>
+</form>
+</body>
+</html>

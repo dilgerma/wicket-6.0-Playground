@@ -3,10 +3,7 @@ package de.effectivetrainings;
 import de.effectivetrainings.domain.Food;
 import de.effectivetrainings.domain.Order;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author martindilger
@@ -17,31 +14,30 @@ public class DB {
 
     private static DB instance = new DB();
 
-    private Map<String, Order> orders;
+    private Map<String, List<Order>> orders;
 
     private DB() {
-        this.orders = Collections.synchronizedMap(new HashMap<String, Order>());
+        this.orders = Collections.synchronizedMap(new HashMap<String, List<Order>>());
     }
 
     public void store(Order order) {
-        this.orders.put(order.getOrderId(), order);
+        List<Order> orders = this.orders.get(order.getFood().name());
+        if(orders == null){
+            this.orders.put(order.getFood().name(),new ArrayList<Order>());
+        }
+        this.orders.get(order.getFood().name()).add(order);
+
     }
 
     /*
     * do not copy that....
     * */
-    public Map<Food, Integer> countOrdersByFood() {
-        Map<Food, Integer> counts = new HashMap<Food, Integer>();
-        Iterator<Order> it = orders.values().iterator();
-        while (it.hasNext()) {
-            Order order = it.next();
-            if (!counts.containsKey(order.getFood())) {
-                counts.put(order.getFood(), 0);
-            }
-            Integer count = counts.get(order.getFood());
-            counts.put(order.getFood(), ++count);
+    public Map<String, Object> countOrdersByFood() {
+        Map<String, Object> foodCount = new HashMap<String, Object>();
+        for(Map.Entry<String, List<Order>> order : this.orders.entrySet()){
+            foodCount.put(order.getKey(),order.getValue().size());
         }
-        return counts;
+        return foodCount;
     }
 
     public static final DB get() {

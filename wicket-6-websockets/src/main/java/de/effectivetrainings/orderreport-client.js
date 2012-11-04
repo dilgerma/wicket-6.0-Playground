@@ -2,13 +2,18 @@ $(document).ready(function() {
 
 
     Wicket.Event.subscribe("/websocket/open", function(jqEvent) {
-        alert("connection opened");
+
     });
+
 
 
     Wicket.Event.subscribe("/websocket/message", function(jqEvent, message) {
-        alert("message received " + message);
-    });
+        var json = JSON.parse(message);
+        for(i in json){
+            $('#'+json[i].name).html(json[i].value);
+        }
+        $('.visualize').trigger('visualizeRefresh');
+    })
 
 
 });

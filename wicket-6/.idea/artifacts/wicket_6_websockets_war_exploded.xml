@@ -1,0 +1,23 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="wicket-6-websockets:war exploded">
+    <output-path>$PROJECT_DIR$/../wicket-6-websockets/target/wicket-6-websockets-1.0-SNAPSHOT</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="wicket-6-websockets/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="wicket-6-websockets" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: org.apache.wicket:wicket-core:6.2.0" />
+          <element id="library" level="project" name="Maven: org.apache.wicket:wicket-util:6.2.0" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.6.4" />
+          <element id="library" level="project" name="Maven: org.apache.wicket:wicket-request:6.2.0" />
+          <element id="library" level="project" name="Maven: org.apache.wicket:wicket-native-websocket-jetty:0.3" />
+          <element id="library" level="project" name="Maven: org.apache.wicket:wicket-native-websocket-core:0.3" />
+          <element id="library" level="project" name="Maven: org.slf4j:slf4j-log4j12:1.6.4" />
+          <element id="library" level="project" name="Maven: log4j:log4j:1.2.16" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

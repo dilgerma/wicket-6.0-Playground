@@ -1,5 +1,7 @@
 package de.effectivetrainings;
 
+import de.effectivetrainings.connections.ConnectionRegistry;
+import org.apache.wicket.Application;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.protocol.http.WebApplication;
 
@@ -9,7 +11,9 @@ import org.apache.wicket.protocol.http.WebApplication;
  * @see de.effectivetrainings.Start#main(String[])
  */
 public class WicketApplication extends WebApplication
-{    	
+{
+    private ConnectionRegistry registry;
+
 	/**
 	 * @see org.apache.wicket.Application#getHomePage()
 	 */
@@ -26,6 +30,15 @@ public class WicketApplication extends WebApplication
 	public void init()
 	{
 		super.init();
+        registry = new ConnectionRegistry();
         mountPage("/report", OrderReportPage.class);
 	}
+
+    public ConnectionRegistry getRegistry(){
+        return registry;
+    }
+
+    public static WicketApplication get(){
+        return (WicketApplication) Application.get();
+    }
 }

@@ -1,10 +1,14 @@
 package de.effectivetrainings;
 
+import de.effectivetrainings.connections.ClientConnection;
 import de.effectivetrainings.domain.Food;
 import de.effectivetrainings.domain.Order;
 import org.apache.wicket.Application;
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.WebSocketRequestHandler;
+import org.apache.wicket.ajax.json.JSONException;
+import org.apache.wicket.ajax.json.JsonUtils;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.markup.head.JavaScriptHeaderItem;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -26,6 +30,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.request.resource.PackageResourceReference;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class HomePage extends WebPage {
     private static final long serialVersionUID = 1L;
@@ -53,42 +58,24 @@ public class HomePage extends WebPage {
             @Override
             protected void onSubmit(AjaxRequestTarget target, Form<?> form) {
                 SimpleWebSocketConnectionRegistry registry = new SimpleWebSocketConnectionRegistry() ;
-                IWebSocketConnection connection = registry.getConnection(Application.get(applicationName), sessionId, pageId);
-                if (connection != null)
-                {
-                    WebSocketRequestHandler webSocketHandler = new WebSocketRequestHandler(this, connection);
-                    webSocketHandler.push("A message pushed by creating WebSocketRequestHandler manually in an Ajax request");
+                for(ClientConnection clientConnection :
+                        WicketApplication.get().getRegistry().getConnectionsBySessionId(Session.get().getId())) {
+                    IWebSocketConnection connection = registry.getConnection(Application.get(), clientConnection.getSessionId(), clientConnection.getPageId());
+                    if (connection != null) {
+                        WebSocketRequestHandler webSocketHandler = new WebSocketRequestHandler(this, connection);
+                        try {
+                            webSocketHandler.push(JsonUtils.asArray(DB.get().countOrdersByFood()).toString());
+                        } catch (JSONException e) {
+                            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+                        }
+                    }
                 }
 
             }
         });
         add(orderForm);
 
-        add(new WebSocketBehavior(){
-            @Override
-            protected void onConnect(ConnectedMessage message) {
-                super.onConnect(message);
-                applicationName = message.getApplication().getName();
-                sessionId = message.getSessionId();
-                pageId = message.getPageId();
-            }
 
-            @Override
-            protected void onClose(ClosedMessage message) {
-                super.onClose(message);
-            }
-
-            @Override
-            protected void onMessage(WebSocketRequestHandler handler, TextMessage message) {
-                super.onMessage(handler, message);
-                handler.appendJavaScript("alert('bam!')");
-            }
-
-            @Override
-            protected void onMessage(WebSocketRequestHandler handler, BinaryMessage binaryMessage) {
-                super.onMessage(handler, binaryMessage);
-            }
-        });
     }
 
     @Override

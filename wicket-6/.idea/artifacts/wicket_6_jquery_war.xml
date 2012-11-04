@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="wicket-6-jquery:war">
+    <output-path>$PROJECT_DIR$/../wicket-6-jquery/wicket-6-jquery/target</output-path>
+    <root id="archive" name="wicket-6-jquery-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="wicket-6-jquery:war exploded" />
+    </root>
+  </artifact>
+</component>

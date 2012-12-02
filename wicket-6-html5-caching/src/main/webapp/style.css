@@ -1,0 +1,12 @@
+.cacheDemo {
+    position: fixed;
+    right: 0px;
+    top: 0px;
+    width: 300px;
+    background-color: gray;
+    color:white;
+}
+
+.manifest {
+    margin-top: 25px;
+}
